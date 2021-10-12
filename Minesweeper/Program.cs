@@ -6,8 +6,8 @@ namespace Minesweeper
     {
         static void Main(string[] args)
         {
-            Board board = new Board(10, 16);
-            board.PrintBoard();
+            Game game = new Game();
+            game.StartGame();
         }
     }
 }
