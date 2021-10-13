@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Minesweeper
 {
     public class Game
     {
-
+        int boardLength = 8;
+        public Field GenerateGrid(int height, int width)
+        {
+            return new Field(true);
+        }
         public void StartGame()
         {
             WriteTitleScreen();
@@ -20,6 +21,65 @@ namespace Minesweeper
             Console.WriteLine();
 
             GameSetup();
+        }
+
+        private void SetRandomMines()
+        {
+            Random rand = new Random();
+            int count = 0;
+
+            var fieldList = Enumerable.Range(0, boardLength * boardLength).Select(_ => new Field(false)).ToList();
+            for (int i = 0; i < boardLength; i++)
+            {
+                for (int j = 0; j < boardLength; j++)
+                {
+                    var field = fieldList[i * 8 + j];
+                    Field top = null;
+                    Field bottom = null;
+                    Field right = null;
+                    Field left = null;
+
+                    if(i != 0)
+                    {
+                        top = fieldList[i * boardLength + j - boardLength];
+                    }
+
+                    if(i != boardLength -1)
+                    {
+                        bottom = fieldList[i * boardLength + j + boardLength];
+                    }
+
+                    if (j != boardLength -1)
+                    {
+                        right = fieldList[i * boardLength + j + 1];
+
+                    }
+                    if (j != 0)
+                    {
+                        left = fieldList[i * boardLength + j - 1];
+                    }
+                    field.SetTBLR(top, bottom, left, right);
+                }
+            }
+
+            int mineCount = 0;
+            do
+            {
+                int index = rand.Next(0, fieldList.Count);
+
+                if(!fieldList[index].isBomb && !fieldList[index].visited)
+                {
+                    fieldList[index].SetupBomb();
+                    mineCount++;
+                }
+                double percentage = fieldList.Count * 0.16d;
+                if (mineCount == Math.Round(percentage))
+                {
+                    break;
+                }
+            } while (true);
+
+            Console.WriteLine("\n\nMinecount: " + mineCount);
         }
 
         private void WriteTitleScreen()
@@ -63,7 +123,6 @@ namespace Minesweeper
 
         private void GameSetup()
         {
-            int userNum = 0;
             do
             {
                 Console.Clear();
@@ -72,13 +131,15 @@ namespace Minesweeper
 
                 if (int.TryParse(input, out var num))
                 {
-                    userNum = num;
+                    boardLength = num;
                 }
-            } while (userNum < 8 || userNum > 26);
+            } while (boardLength < 8 || boardLength > 26);
 
-            AddFields(userNum);
+            AddFields(boardLength);
 
+            DrawBoard();
 
+            SetRandomMines();
         }
 
         private void AddFields(int amount)
@@ -91,31 +152,22 @@ namespace Minesweeper
                 fields.Add(field);
             }
 
-            foreach (Field field in fields)
-            {
-                int i = fields.IndexOf(field);
-                field.SetTBLR(CheckOutOfBounds(fields, i - amount), CheckOutOfBounds(fields, i + amount), CheckOutOfBounds(fields, i - 1), CheckOutOfBounds(fields, i + 1));
-            }
 
             GameManager.SetFields(fields);
         }
 
-        private Field CheckOutOfBounds(List<Field> fields, int index)
+        private void DrawBoard()
         {
-            Field field;
-            if(index < 0 || index >= fields.Count)
+            for(int i = 0; i < boardLength; i++)
             {
-                return null;
-            }
-
-            try
-            {
-                field = fields[index];
-                return field;
-            } catch(IndexOutOfRangeException e)
-            {
-                return null;
+                for(int j = 0; j < boardLength; j++)
+                {
+                    Console.Write("_ ");
+                }
+                Console.WriteLine();
             }
         }
+
+        
     }
 }

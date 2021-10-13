@@ -13,9 +13,14 @@ namespace Minesweeper
         public Field Right { get; private set; }
         public Field Bottom { get; private set; }
 
-        public bool isBomb { get; }
+        public bool isBomb { get; private set; }
         public bool visited { get; private set; } = false;
         private int BombsCount { get => visited ? 1 : 0; }
+
+        public Field(bool isBomb)
+        {
+            this.isBomb = isBomb;
+        }
 
         public Field(Field top, Field left, Field right, Field bottom, bool isBomb)
         {
@@ -69,6 +74,11 @@ namespace Minesweeper
             counter += Top?.Right?.BombsCount;
 
             return (int)counter;
+        }
+
+        public void SetupBomb()
+        {
+            isBomb = true;
         }
     }
 }
