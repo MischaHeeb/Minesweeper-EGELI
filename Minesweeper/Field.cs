@@ -15,20 +15,12 @@ namespace Minesweeper
 
         public bool isBomb { get; private set; }
         public bool visited { get; private set; } = false;
-        private int BombsCount { get => visited ? 1 : 0; }
+        public bool marked { get; private set; } = false;
+        private int BombsCount { get => isBomb ? 1 : 0; }
 
         public Field(bool isBomb)
         {
             this.isBomb = isBomb;
-        }
-
-        public Field(Field top, Field left, Field right, Field bottom, bool isBomb)
-        {
-            this.isBomb = isBomb;
-            Top = top;
-            Bottom = bottom;
-            Right = right;
-            Left = left;
         }
 
         public void SetTBLR(Field top, Field bottom, Field left, Field right)
@@ -61,24 +53,80 @@ namespace Minesweeper
             }
         }
 
-        public int GetBombsAroundMe()
+        public void SetMarked()
         {
-            int? counter = 0;
-            counter += Right?.BombsCount;
-            counter += Left?.BombsCount;
-            counter += Top?.BombsCount;
-            counter += Bottom?.BombsCount;
-            counter += Bottom?.Left?.BombsCount;
-            counter += Bottom?.Right?.BombsCount;
-            counter += Top?.Left?.BombsCount;
-            counter += Top?.Right?.BombsCount;
-
-            return (int)counter;
+            if (marked)
+            {
+                marked = false;
+            } else
+            {
+                marked = true;
+            }
+            
         }
 
-        public void SetupBomb()
+        public int GetBombsAroundMe()
         {
-            isBomb = true;
+            int counter = 0;
+            if(Top != null)
+            {
+                counter += Top.BombsCount;
+
+                if(Top.Left != null)
+                {
+                    counter += Top.Left.BombsCount;
+                }
+                if(Top.Right != null)
+                {
+                    counter += Top.Right.BombsCount;
+                }
+            }
+
+            if (Bottom != null)
+            {
+                counter += Bottom.BombsCount;
+
+                if (Bottom.Left != null)
+                {
+                    counter += Bottom.Left.BombsCount;
+                }
+                if (Bottom.Right != null)
+                {
+                    counter += Bottom.Right.BombsCount;
+                }
+            }
+
+            if(Right != null)
+            {
+                counter += Right.BombsCount;
+            }
+
+            if(Left != null)
+            {
+                counter += Left.BombsCount;
+
+            }
+
+            return counter;
+        }
+
+        public string GetRepresentation()
+        {
+            if (!visited)
+            {
+                if(marked)
+                {
+                    return "!";
+                }
+                return "_";
+
+            }
+            if (isBomb)
+            {
+                return "x";
+            }
+            var bombs = GetBombsAroundMe();
+            return bombs.ToString();
         }
     }
 }
