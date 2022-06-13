@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -75,26 +74,17 @@ namespace Minesweeper
         private void WriteTitleScreen()
         {
             String line;
-            int lineLength = 0;
             try
             {
-                string path = AppDomain.CurrentDomain.BaseDirectory + @"..\..\..\files\title.txt";
-                //Pass the file path and file name to the StreamReader constructor
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "files/title.txt");
+
                 using (StreamReader sr = new StreamReader(path))
                 {
-                    //Read the first line of text
-                    line = sr.ReadLine();
-                    //Continue to read until you reach end of file
-                    while (line != null)
-                    {
-                        lineLength = line.Length;
-                        //write the line to console window
-                        Console.WriteLine(line);
-                        //Read the next line
-                        line = sr.ReadLine();
-                    }
+                    line = sr.ReadToEnd();
+                    Console.WriteLine(line);
 
-                    for (int i = 0; i < lineLength + 5; i++)
+
+                    for (int i = 0; i < line.Length * 0.125f; i++)
                     {
                         Console.Write("-");
                     }
@@ -123,7 +113,6 @@ namespace Minesweeper
                 }
             } while (boardLength < 8 || boardLength > 26);
 
-            AddFields(boardLength);
             SetRandomMines();
 
             Console.WriteLine("Welcome to Minesweeper.");
@@ -141,17 +130,6 @@ namespace Minesweeper
                 UserXYInput();
 
             } while (!gameOver);
-        }
-        private void AddFields(int amount)
-        {
-            List<Field> fields = new List<Field>();
-            for (int i = 0; i < amount * amount; i++)
-            {
-                Field field = new Field(false);
-                fields.Add(field);
-            }
-
-
         }
         private void DrawBoard()
         {
@@ -178,7 +156,7 @@ namespace Minesweeper
 
                 row = row.Bottom;
                 builder.AppendLine("|");
-                
+
             }
 
             Console.WriteLine(builder);
@@ -190,18 +168,17 @@ namespace Minesweeper
 
             int x = 0;
             int y = 0;
-
             do
             {
                 string xInput = ConsoleHelper.ReadLine("Which cordinate on the x axis do you choose? (m to enter mark mode) ");
-                if(xInput == "m")
+                if (xInput == "m")
                 {
                     MarkField();
                     DrawBoard();
                     return;
                 }
                 string yInput = ConsoleHelper.ReadLine("Which cordinate on the y axis do you choose? (m to enter mark mode) ");
-                if(yInput == "m")
+                if (yInput == "m")
                 {
                     MarkField();
                     DrawBoard();
@@ -216,36 +193,35 @@ namespace Minesweeper
                         y = yNum;
                         break;
                     }
-                } 
+                }
 
             } while (true);
 
-            Field field = fieldList[(y - 1) * boardLength + (x-1)];
+            Field field = fieldList[(y - 1) * boardLength + (x - 1)];
 
             field.SetVisited();
 
-            if(DidPlayerWin())
+            if (DidPlayerWin())
             {
                 Console.Clear();
                 DrawBoard();
                 var elapsed = DateTime.UtcNow - startTime;
                 gameOver = true;
                 Console.WriteLine("You've uncovered every safe field. You win!");
-                Console.WriteLine($"Your time: {elapsed.ToString(@"mm\:ss\.fff")} seconds");
+                Console.WriteLine($"Your time: {elapsed.ToString(@"mm\:ss\.fff")}");
                 Console.WriteLine("\nPress any key to exit");
                 Console.ReadKey();
             }
 
-            if(field.isBomb)
+            if (field.isBomb)
             {
                 Console.Clear();
                 fieldList.ForEach(x => x.SetVisited());
                 DrawBoard();
                 var elapsed = DateTime.Now - startTime;
-
                 gameOver = true;
                 Console.WriteLine("You've stepped into a mine. It blew up.");
-                Console.WriteLine($"Your time: {elapsed.ToString(@"mm\:ss\.fff")} seconds");
+                Console.WriteLine($"Your time: {elapsed.ToString(@"mm\:ss\.fff")}");
                 Console.WriteLine("\nPress any key to exit");
                 Console.ReadKey();
             }
@@ -257,8 +233,8 @@ namespace Minesweeper
         {
             Console.Clear();
             DrawBoard();
-            int x = 0;
-            int y = 0;
+            int x;
+            int y;
             do
             {
                 string xInput = ConsoleHelper.ReadLine("Which cordinate on the x axis do you choose to mark? ");
@@ -273,7 +249,6 @@ namespace Minesweeper
                         break;
                     }
                 }
-
             } while (true);
 
             Field field = fieldList[(y - 1) * boardLength + (x - 1)];

@@ -102,3 +102,4 @@ C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper.Test\obj\Debug\net5.0\
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper.Test\obj\Debug\net5.0\ref\Minesweeper.Test.dll
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper.Test\obj\Debug\net5.0\Minesweeper.Test.pdb
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper.Test\obj\Debug\net5.0\Minesweeper.Test.genruntimeconfig.cache
+C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper.Test\bin\Debug\net5.0\files\title.txt

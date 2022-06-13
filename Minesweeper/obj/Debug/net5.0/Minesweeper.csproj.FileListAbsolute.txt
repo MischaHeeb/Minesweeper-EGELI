@@ -5,7 +5,6 @@ C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\bin\Debug\net5.0\Mines
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\bin\Debug\net5.0\Minesweeper.dll
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\bin\Debug\net5.0\ref\Minesweeper.dll
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\bin\Debug\net5.0\Minesweeper.pdb
-C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.csprojAssemblyReference.cache
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.AssemblyInfoInputs.cache
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.AssemblyInfo.cs
@@ -14,3 +13,5 @@ C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Mines
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\ref\Minesweeper.dll
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.pdb
 C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.genruntimeconfig.cache
+C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\bin\Debug\net5.0\files\title.txt
+C:\Users\misch\source\repos\EGELI\Minesweeper\Minesweeper\obj\Debug\net5.0\Minesweeper.csproj.AssemblyReference.cache
